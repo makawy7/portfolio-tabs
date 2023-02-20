@@ -2,13 +2,11 @@ function Company({ jobs, current, changeCurrent }) {
   return (
     <div className="jobs-center">
       <div className="btn-container">
-        {jobs.map((job) => (
+        {jobs.map((job, idx) => (
           <button
-            onClick={() => changeCurrent(job.id)}
+            onClick={() => changeCurrent(idx)}
             key={job.id}
-            className={`job-btn ${
-              current.company === job.company ? "active-btn" : "false"
-            }`}
+            className={`job-btn ${current === idx ? "active-btn" : "false"}`}
           >
             {job.company}
           </button>

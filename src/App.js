@@ -6,27 +6,33 @@ const url = "https://course-api.com/react-tabs-project";
 
 function App() {
   const [jobs, setJobs] = useState([]);
-  const [current, setCurrent] = useState({});
-  const [duties, setDuties] = useState([]);
+  const [current, setCurrent] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const getData = useCallback(async () => {
+    console.log("fetch call");
     const response = await fetch(url);
     const data = await response.json();
     setJobs(data);
-    const [first] = data;
-    setCurrent(first);
-    setDuties(first.duties);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     getData();
   }, [getData]);
 
-  const changeCurrent = (id) => {
-    const [cuCompany] = jobs.filter((job) => job.id === id);
-    setCurrent(cuCompany);
-    setDuties(cuCompany.duties);
+  const changeCurrent = (index) => {
+    setCurrent(index);
   };
+
+  if (loading) {
+    return (
+      <section className="section loading">
+        <h1>loading ...</h1>
+      </section>
+    );
+  }
+
   return (
     <section className="section">
       <div className="title">
@@ -35,7 +41,7 @@ function App() {
       </div>
       <div className="jobs-center">
         <Company jobs={jobs} current={current} changeCurrent={changeCurrent} />
-        <Info current={current} duties={duties} />
+        <Info {...jobs[current]} />
       </div>
     </section>
   );
