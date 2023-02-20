@@ -13,8 +13,9 @@ function App() {
     const response = await fetch(url);
     const data = await response.json();
     setJobs(data);
-    setCurrent(data[0]);
-    setDuties(data[0].duties);
+    const [first] = data;
+    setCurrent(first);
+    setDuties(first.duties);
   }, []);
 
   useEffect(() => {
@@ -22,9 +23,9 @@ function App() {
   }, [getData]);
 
   const changeCurrent = (id) => {
-    const cuCompany = jobs.filter((job) => job.id === id);
-    setCurrent(cuCompany[0]);
-    setDuties(cuCompany[0].duties);
+    const [cuCompany] = jobs.filter((job) => job.id === id);
+    setCurrent(cuCompany);
+    setDuties(cuCompany.duties);
   };
   return (
     <section className="section">
